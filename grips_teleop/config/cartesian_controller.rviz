@@ -4,9 +4,9 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /RobotModel1
         - /RobotModel1/Links1
         - /TF1/Frames1
+        - /Pose1
       Splitter Ratio: 0.699346
     Tree Height: 745
   - Class: rviz/Selection
@@ -49,7 +49,7 @@ Visualization Manager:
       Plane Cell Count: 10
       Reference Frame: <Fixed Frame>
       Value: true
-    - Alpha: 1
+    - Alpha: 0.2
       Class: rviz/RobotModel
       Collision Enabled: false
       Enabled: true
@@ -74,6 +74,16 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        ft_coupling:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ft_sensor:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         manifold:
           Alpha: 1
           Show Axes: false
@@ -93,6 +103,11 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        wrist_coupling:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         yaw:
           Alpha: 1
           Show Axes: false
@@ -108,7 +123,7 @@ Visualization Manager:
       Enabled: false
       Frame Timeout: 15
       Frames:
-        All Enabled: false
+        All Enabled: true
       Marker Scale: 1
       Name: TF
       Show Arrows: true
@@ -139,6 +154,20 @@ Visualization Manager:
       Namespaces:
         {}
       Queue Size: 100
+      Value: true
+    - Alpha: 1
+      Axes Length: 0.2
+      Axes Radius: 0.02
+      Class: rviz/Pose
+      Color: 255; 25; 0
+      Enabled: true
+      Head Length: 0.3
+      Head Radius: 0.1
+      Name: Pose
+      Shaft Length: 1
+      Shaft Radius: 0.05
+      Shape: Axes
+      Topic: /aux_pose
       Value: true
   Enabled: true
   Global Options:
@@ -176,10 +205,10 @@ Visualization Manager:
         Z: 0.368512
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.46
+      Pitch: 0.705
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 5.09818
+      Yaw: 4.61817
     Saved: ~
 Window Geometry:
   Displays:
@@ -197,5 +226,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1627
-  X: 53
+  X: 58
   Y: 24

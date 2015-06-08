@@ -12,6 +12,22 @@
   <property name="l_inner_cog" value="0.316e-3 23.873e-3 0" />
   <property name="r_finger_cog" value="3.441e-3 20.353e-3 0" />
   <property name="l_finger_cog" value="-3.441e-3 20.353e-3 0" />  
+  
+  <!-- Meshes -->
+  <property name="gripper_base_mesh" value="package://grips_description/meshes/visual/gripper_base.dae" />
+  <property name="outer_mesh" value="package://grips_description/meshes/visual/outer_pivot.dae" />
+  <property name="r_inner_mesh" value="package://grips_description/meshes/visual/r_inner_pivot.dae" />
+  <property name="l_inner_mesh" value="package://grips_description/meshes/visual/l_inner_pivot.dae" />
+  <property name="r_finger_mesh" value="package://grips_description/meshes/visual/r_finger.dae" />
+  <property name="l_finger_mesh" value="package://grips_description/meshes/visual/l_finger.dae" />
+  <!-- Joints Dynamics -->
+  <property name="outer_damping" value="0.1" />
+  <property name="inner_damping" value="0.1" />
+  <property name="finger_damping" value="0.1" />
+  <property name="inner_friction" value="0" />
+  <property name="outer_friction" value="0" />
+  <property name="finger_friction" value="0" />
+  
   <!-- Links Inertia -->
   <macro name="gripper_base_inertia">
     <inertia ixx="9.67e-4" ixy="0.0" ixz="0.0" iyy="0.002" iyz="0.0"
@@ -38,34 +54,103 @@
       iyz="0.0" izz="1.701e-4" />
   </macro>
   
-  <macro name="simple_gripper" params="name">
+  <macro name="simple_gripper" params="name parent">
     <!-- base link -->
-    <create_link name="${name}gripper_base" color="metal_seamed" mesh="${gripper_base_mesh}" cog="${gripper_base_cog}" mass="${gripper_base_mass}">
-      <base_inertia />
+    <create_link name="${name}gripper_base" color="metal_seamed" mesh="${gripper_base_mesh}">
+      <collision>
+        <geometry>
+          <mesh filename="${gripper_base_mesh}" />
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="${gripper_base_cog}" rpy="0 0 0" />
+        <mass value="${gripper_base_mass}" />
+        <gripper_base_inertia />
+      </inertial>
     </create_link>
     <!-- outer links -->
-    <create_link name="${name}r_outer" color="metal_seamed" mesh="${outer_mesh}" cog="${outer_cog}" mass="${outer_mass}">
-      <outer_inertia />
+    <create_link name="${name}r_outer" color="metal_seamed" mesh="${outer_mesh}">
+      <collision>
+        <geometry>
+          <mesh filename="${gripper_base_mesh}" />
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="${outer_cog}" rpy="0 0 0" />
+        <mass value="${outer_mass}" />
+        <outer_inertia />
+      </inertial>
     </create_link>
-    <create_link name="${name}l_outer" color="metal_seamed" mesh="${outer_mesh}" cog="${outer_cog}" mass="${outer_mass}">
-      <outer_inertia />
+    <create_link name="${name}l_outer" color="metal_seamed" mesh="${outer_mesh}">
+      <collision>
+        <geometry>
+          <mesh filename="${outer_mesh}" />
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="${outer_cog}" rpy="0 0 0" />
+        <mass value="${outer_mass}" />
+        <outer_inertia />
+      </inertial>
     </create_link>
     <!-- inner links -->
-    <create_link name="${name}r_inner" color="metal_seamed" mesh="${r_inner_mesh}" cog="${r_inner_cog}" mass="${inner_mass}">
-      <r_inner_inertia />
+    <create_link name="${name}r_inner" color="metal_seamed" mesh="${r_inner_mesh}">
+      <collision>
+        <geometry>
+          <mesh filename="${r_inner_mesh}" />
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="${r_inner_cog}" rpy="0 0 0" />
+        <mass value="${inner_mass}" />
+        <r_inner_inertia />
+      </inertial>
     </create_link>
-    <create_link name="${name}l_inner" color="metal_seamed" mesh="${l_inner_mesh}" cog="${l_inner_cog}" mass="${inner_mass}">
-      <l_inner_inertia />
+    <create_link name="${name}l_inner" color="metal_seamed" mesh="${l_inner_mesh}">
+      <collision>
+        <geometry>
+          <mesh filename="${l_inner_mesh}" />
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="${l_inner_cog}" rpy="0 0 0" />
+        <mass value="${inner_mass}" />
+        <l_inner_inertia />
+      </inertial>
     </create_link>
     <!-- finger links -->
-    <create_link name="${name}r_finger" color="metal_seamed" mesh="${r_finger_mesh}" cog="${r_finger_cog}" mass="${finger_mass}">
-      <r_finger_inertia />
+    <create_link name="${name}r_finger" color="metal_seamed" mesh="${r_finger_mesh}">
+      <collision>
+        <geometry>
+          <mesh filename="${r_finger_mesh}" />
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="${r_finger_cog}" rpy="0 0 0" />
+        <mass value="${finger_mass}" />
+        <r_finger_inertia />
+      </inertial>
     </create_link>
-    <create_link name="${name}l_finger" color="metal_seamed" mesh="${l_finger_mesh}" cog="${l_finger_cog}" mass="${finger_mass}">
-      <l_finger_inertia />
+    <create_link name="${name}l_finger" color="metal_seamed" mesh="${l_finger_mesh}">
+      <collision>
+        <geometry>
+          <mesh filename="${l_finger_mesh}" />
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="${l_finger_cog}" rpy="0 0 0" />
+        <mass value="${finger_mass}" />
+        <l_finger_inertia />
+      </inertial>
     </create_link>
 
     <!-- joints -->
+    <joint name="gripper_base_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <parent link="${parent}" />
+      <child link="${name}gripper_base" />
+    </joint>
+    
     <joint name="${name}r_inner" type="revolute">
       <child link="${name}r_inner" />
       <parent link="${name}gripper_base" />

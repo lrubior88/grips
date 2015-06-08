@@ -27,7 +27,7 @@
     </inertial>
   </macro>
   <!-- Link Macro -->
-  <macro name="create_link" params="name color mesh *collision *inertia">
+  <macro name="create_link" params="name color mesh *collision *inertial">
     <link name="${name}">
       <visual>
         <geometry>
@@ -36,7 +36,7 @@
         <material name="${color}" />
       </visual>
       <xacro:insert_block name="collision" />
-      <xacro:insert_block name="inertia" />
+      <xacro:insert_block name="inertial" />
     </link>
   </macro>
   <!-- A smaller dummy link makes the model to explode in Gazebo -->
