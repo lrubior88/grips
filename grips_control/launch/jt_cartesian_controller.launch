@@ -1,8 +1,11 @@
 <?xml version="1.0"?>
 <launch>
   
+  <arg name="controller" default="joint_effort_controllers" />
   <!-- start effort controllers -->
-  <include file="$(find grips_control)/launch/grips_effort_controllers.launch"/>
+  <include file="$(find grips_control)/launch/grips_effort_controllers.launch">
+    <arg name="controller" value="$(arg controller)" />
+  </include>
   
   <!-- PyKDL Jacobian Transpose Cartesian Controller -->
   <node name="jt_cartesian_controller" pkg="grips_control" type="jt_cartesian_controller.py" output="screen">

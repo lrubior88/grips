@@ -1,0 +1,39 @@
+joint_state_controller:
+  type: joint_state_controller/JointStateController
+  # Hz
+  publish_rate: 10000.0
+# Grips
+SA:
+  type: effort_controllers/JointEffortController
+  joint: SA
+  pid: {p: 10000, i: 0, d: 100}
+SE:
+  type: effort_controllers/JointEffortController
+  joint: SE
+  pid: {p: 10000, i: 0, d: 100}
+linkage_tr:
+  type: effort_controllers/JointEffortController
+  joint: linkage_tr
+  pid: {p: 10000, i: 0, d: 100}
+WP:
+  type: effort_controllers/JointEffortController
+  joint: WP
+  pid: {p: 10000, i: 0, d: 100}
+WY:
+  type: effort_controllers/JointEffortController
+  joint: WY
+  pid: {p: 10000, i: 0, d: 100}
+WR:
+  type: effort_controllers/JointEffortController
+  joint: WR
+  pid: {p: 10000, i: 0, d: 100}
+
+# Gripper fingers
+r_finger:
+  type: effort_controllers/JointPositionController
+  joint: r_finger
+  pid: {p: 1000, i: 0, d: 10}
+l_finger:
+  type: effort_controllers/JointPositionController
+  joint: l_finger
+  pid: {p: 1000, i: 0, d: 10}

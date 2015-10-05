@@ -145,12 +145,48 @@
     </create_link>
 
     <!-- joints -->
-    <joint name="gripper_base_joint" type="fixed">
+    <joint name="${name}gripper_base_joint" type="fixed">
       <origin xyz="0 0 0" rpy="0 0 0" />
       <parent link="${parent}" />
       <child link="${name}gripper_base" />
     </joint>
     
+    <!-- Fixed Joints -->
+    <joint name="${name}r_inner" type="fixed">
+      <child link="${name}r_inner" />
+      <parent link="${name}gripper_base" />
+      <origin xyz="31.737e-3 42.19e-3 0" rpy="0 0 0" />
+    </joint>
+    <joint name="${name}l_inner" type="fixed">
+      <child link="${name}l_inner" />
+      <parent link="${name}gripper_base" />
+      <origin xyz="-31.737e-3 42.19e-3 0" rpy="0 0 0" />
+    </joint>
+    <joint name="${name}r_outer" type="fixed">
+      <child link="${name}r_outer" />
+      <parent link="${name}gripper_base" />
+      <origin xyz="58.93e-3 26.49e-3 0" rpy="0 0 0" />
+    </joint>
+    <joint name="${name}l_outer" type="fixed">
+      <child link="${name}l_outer" />
+      <parent link="${name}gripper_base" />
+      <origin xyz="-58.93e-3 26.49e-3 0" rpy="0 0 0" />
+    </joint>
+<!--
+    <joint name="${name}r_finger" type="fixed">
+      <child link="${name}r_finger" />
+      <parent link="${name}r_inner" />
+      <origin xyz="0 63.45e-3 0" rpy="0 0 0" />
+    </joint>
+    <joint name="${name}l_finger" type="fixed">
+      <child link="${name}l_finger" />
+      <parent link="${name}l_inner" />
+      <origin xyz="0 63.45e-3 0" rpy="0 0 0" />
+    </joint>
+-->
+
+    <!-- Uncommented to use non fixed joints -->
+<!--
     <joint name="${name}r_inner" type="revolute">
       <child link="${name}r_inner" />
       <parent link="${name}gripper_base" />
@@ -167,7 +203,8 @@
       <limit lower="-0.4" upper="1.43" effort="${gripper_effort}" velocity="${gripper_velocity}" />
       <dynamics damping="${inner_damping}" />
     </joint>
-    
+-->
+<!--
     <joint name="${name}r_outer" type="revolute">
       <child link="${name}r_outer" />
       <parent link="${name}gripper_base" />
@@ -184,7 +221,7 @@
       <limit lower="-0.4" upper="1.43" effort="${gripper_effort}" velocity="${gripper_velocity}" />
       <dynamics damping="${outer_damping}" />
     </joint>
-
+-->
     <joint name="${name}r_finger" type="revolute">
       <child link="${name}r_finger" />
       <parent link="${name}r_inner" />
@@ -203,10 +240,12 @@
     </joint>
 
     <!-- transmissions -->
+<!--
     <simple_transmission joint="${name}r_outer" />
     <simple_transmission joint="${name}l_outer" />
     <simple_transmission joint="${name}r_inner" />
     <simple_transmission joint="${name}l_inner" />
+-->
     <simple_transmission joint="${name}r_finger" />
     <simple_transmission joint="${name}l_finger" />
     

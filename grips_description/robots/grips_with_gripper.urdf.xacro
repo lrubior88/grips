@@ -12,8 +12,8 @@
   
   <!-- Create the grips robot -->
   <link name="world" />
+  
   <serial_arm parent="world"/>
-    
   <simple_gripper name="" parent="end_effector"/>
 		
   
