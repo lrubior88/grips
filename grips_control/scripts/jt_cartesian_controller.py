@@ -41,8 +41,8 @@ class JTCartesianController(object):
     for i, name in enumerate(self.joint_names):
       self.torque_pub[name] = rospy.Publisher('/%s/command' % (name), Float64)
     rospy.Subscriber('/joint_states', JointState, self.joint_states_cb)
-    rospy.Subscriber('/grips/endpoint_state', EndpointState, self.endpoint_state_cb)
-    rospy.Subscriber('/grips/ik_command', PoseStamped, self.ik_command_cb)
+    rospy.Subscriber('/robot_grips/endpoint_state', EndpointState, self.endpoint_state_cb)
+    rospy.Subscriber('/robot_grips/ik_command', PoseStamped, self.ik_command_cb)
     
     rospy.loginfo('Running Cartesian controller for Grips')
     # Start torque controller timer
