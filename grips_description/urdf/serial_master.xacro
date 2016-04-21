@@ -1,0 +1,204 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!-- Dimensions -->
+
+  <property name="base_radius" value="0.06" />
+  <property name="base_length" value="0.051359" />
+  <property name="link1_radius" value="0.01" />
+  <property name="link1_length" value="0.149225" />
+  <property name="dist_1_2" value="0.069075" />  
+  <property name="link2_radius" value="0.01" />
+  <property name="link2_length" value="0.1778" />
+  <property name="dist_2_3" value="0.05795" />  
+  <property name="link3_radius" value="0.01" />
+  <property name="link3_length" value="0.2032" />
+  
+  <property name="link4_radius" value="0.005" />
+  <property name="link4_length" value="0.021605" />
+  <property name="dist_4_5" value="0.083109" />  
+  <property name="link5_radius" value="0.005" />
+  <property name="link5_length" value="0.09678" />
+  
+  <property name="dist_5_eef" value="0.005338" /> 
+  
+  <property name="eef_size" value="0.01" />
+    
+  <macro name="serial_arm" params="parent">
+   <link name="base_link">
+    <collision>
+      <origin xyz="0 0 ${base_length/2}" rpy="0 0 0"/>
+      <geometry>
+    <box size="${base_radius} ${base_radius} ${base_length}"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 ${base_length/2}" rpy="0 0 0"/>
+      <geometry>
+    <box size="${base_radius} ${base_radius} ${base_length}"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+   </link>   
+    
+   <link name="link1">
+    <visual>
+      <origin xyz="0 0 ${link1_length/2}" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${link1_radius}" length="${link1_length}"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>    
+    
+    <collision>
+      <origin xyz="0 0 ${link1_length/2}" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${link1_radius}" length="${link1_length}"/>
+      </geometry>
+    </collision>
+   </link>
+   
+   <link name="link2">
+    <visual>
+      <origin xyz="0 0 ${link2_length/2}" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${link2_radius}" length="${link2_length}"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>    
+    
+    <collision>
+      <origin xyz="0 0 ${link2_length/2}" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${link2_radius}" length="${link2_length}"/>
+      </geometry>
+    </collision>
+   </link>
+   
+   <link name="link3">
+    <visual>
+      <origin xyz="0 ${link3_length/2} 0" rpy="${pi/2} 0 0"/>
+      <geometry>
+        <cylinder radius="${link3_radius}" length="${link3_length}"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>    
+    
+    <collision>
+      <origin xyz="0 ${link3_length/2} 0" rpy="${pi/2} 0 0"/>
+      <geometry>
+        <cylinder radius="${link3_radius}" length="${link3_length}"/>
+      </geometry>
+    </collision>
+   </link>
+   
+   
+   <link name="link4">
+    <visual>
+      <origin xyz="${-link4_length/2} 0 0" rpy="0 ${pi/2} 0"/>
+      <geometry>
+        <cylinder radius="${link4_radius}" length="${link4_length}"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>    
+    
+    <collision>
+      <origin xyz="${-link4_length/2} 0 0" rpy="0 ${pi/2} 0"/>
+      <geometry>
+        <cylinder radius="${link4_radius}" length="${link4_length}"/>
+      </geometry>
+    </collision>
+   </link>
+   
+   
+   <link name="link5">
+    <visual>
+      <origin xyz="0 ${link5_length/2} 0" rpy="${pi/2} 0 0"/>
+      <geometry>
+        <cylinder radius="${link5_radius}" length="${link5_length}"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>    
+    
+    <collision>
+      <origin xyz="0 ${link5_length/2} 0" rpy="${pi/2} 0 0"/>
+      <geometry>
+        <cylinder radius="${link5_radius}" length="${link5_length}"/>
+      </geometry>
+    </collision>
+   </link>
+   
+   <link name="eef">
+    <collision>
+      <origin xyz="0 ${eef_size/2} 0 " rpy="0 0 0"/>
+      <geometry>
+    <box size="${eef_size} ${eef_size} ${eef_size}"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 ${eef_size/2} 0 " rpy="0 0 0"/>
+      <geometry>
+    <box size="${eef_size} ${eef_size} ${eef_size}"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+   </link>   
+    
+    <!-- Joints -->
+    <joint name="anchor" type="fixed">
+      <origin xyz="0 0 0.001" rpy="0 0 0" />
+      <parent link="${parent}" />
+      <child link="base_link" />
+    </joint>
+        
+    <joint name="joint1" type="revolute">
+      <child link="link1" />
+      <parent link="base_link" />
+      <axis xyz="0 0 1" />
+      <origin xyz="0 0 ${base_length}" rpy="0 0 0" />
+      <limit lower="${-90*pi/180}" upper="${90*pi/180}" effort="${max_effort}" velocity="${100*pi/180}" />
+    </joint>  
+    
+    <joint name="joint2" type="revolute">
+      <parent link="link1" />
+      <child link="link2" />
+      <axis xyz="-1 0 0" />
+      <origin xyz="${dist_1_2} 0 ${link1_length}" rpy="0 0 0" />
+      <limit lower="${-45*pi/180}" upper="${90*pi/180}" effort="${max_effort}" velocity="${100*pi/180}" />
+    </joint>
+    
+    <joint name="joint3" type="revolute">
+      <parent link="link2" />
+      <child link="link3" />
+      <axis xyz="-1 0 0" />
+      <origin xyz="${dist_2_3} 0 ${link2_length}" rpy="0 0 0" />
+      <limit lower="${-30*pi/180}" upper="${60*pi/180}" effort="${max_effort}" velocity="${100*pi/180}" />
+    </joint> 
+    
+    <joint name="joint4" type="revolute">
+      <parent link="link3" />
+      <child link="link4" />
+      <axis xyz="0 0 1" />
+      <origin xyz="0 ${link3_length} 0" rpy="0 0 0" />
+      <limit lower="${-60*pi/180}" upper="${60*pi/180}" effort="${max_effort}" velocity="${100*pi/180}" />
+    </joint>
+    
+    <joint name="joint5" type="revolute">
+      <parent link="link4" />
+      <child link="link5" />
+      <axis xyz="-1 0 0" />
+      <origin xyz="${-link4_length} 0 ${-dist_4_5}" rpy="0 0 0" />
+      <limit lower="${-30*pi/180}" upper="${45*pi/180}" effort="${max_effort}" velocity="${100*pi/180}" />
+    </joint> 
+    
+    <joint name="joint6" type="revolute">
+      <parent link="link5" />
+      <child link="eef" />
+      <axis xyz="0 1 0" />
+      <origin xyz="0 ${link5_length} ${dist_5_eef}" rpy="0 0 0" />
+      <limit lower="${-50*pi/180}" upper="${50*pi/180}" effort="${max_effort}" velocity="${100*pi/180}" />
+    </joint> 
+
+  </macro>
+</robot>
