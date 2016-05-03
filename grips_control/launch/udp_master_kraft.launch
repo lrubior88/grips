@@ -1,22 +1,28 @@
 <launch>
 
-  <arg name="ref_frame" default="world"/>
-  <arg name="read_ip" default="192.168.0.10"/>
-  <arg name="read_port" default="35000"/>
-  <arg name="publish_rate" default="1000.0"/>  
-  	
-  <param name="master_description" command="$(find xacro)/xacro.py '$(find grips_description)/robots/grips_master.urdf.xacro'" />
-  
+  <arg name="frame_id" default="world"/>
+  <arg name="system_ip" default="192.168.0.10"/>
+  <arg name="system_master_pose_port" default="35000"/>
+  <arg name="publish_rate" default="1000.0"/>
+  <arg name="robot_description" default="master_description"/>
+  <arg name="joint_states_topic" default="/master_kraft/joint_states"/>
+
+
+  <param name="$(arg robot_description)" command="$(find xacro)/xacro.py '$(find grips_description)/robots/grips_master.urdf.xacro'" />
+    
   <node name="UDP_master_kraft_recv" pkg="grips_control" type="UDP_master_kraft_recv.py"  output="screen" >
     <param name="read_ip" type="string" value="$(arg system_ip)"/>
     <param name="read_port" type="int" value="$(arg system_master_pose_port)"/>
     <param name="publish_rate" type="double" value="$(arg publish_rate)"/>
-    <param name="ref_frame" type="string" value="$(arg ref_frame)"/>
-  </node>  
+    <param name="frame_id" type="string" value="$(arg frame_id)"/>v
+    <param name="joint_states_topic" type="string" value="$(arg joint_states_topic)"/>
+  </node>
   
   <node name="master_endpoint_state" pkg="grips_control" type="master_endpoint_state.py"  output="screen" >
     <param name="tip_link" type="string" value="eef"/>
-    <param name="ref_frame" type="string" value="$(arg ref_frame)"/>
+    <param name="frame_id" type="string" value="$(arg frame_id)"/>
+    <param name="robot_description" type="string" value="$(arg robot_description)"/>
+    <param name="joint_states_topic" type="string" value="$(arg joint_states_topic)"/>
   </node>
 
 

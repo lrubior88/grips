@@ -155,17 +155,17 @@
     <joint name="joint1" type="revolute">
       <child link="link1" />
       <parent link="base_link" />
-      <axis xyz="0 0 1" />
+      <axis xyz="0 0 -1" />
       <origin xyz="0 0 ${base_length}" rpy="0 0 0" />
-      <limit lower="${-90*pi/180}" upper="${90*pi/180}" effort="${max_effort}" velocity="${100*pi/180}" />
+      <limit lower="${-105*pi/180}" upper="${105*pi/180}" effort="${max_effort}" velocity="${100*pi/180}" />
     </joint>  
     
     <joint name="joint2" type="revolute">
       <parent link="link1" />
       <child link="link2" />
-      <axis xyz="-1 0 0" />
+      <axis xyz="1 0 0" />
       <origin xyz="${dist_1_2} 0 ${link1_length}" rpy="0 0 0" />
-      <limit lower="${-45*pi/180}" upper="${90*pi/180}" effort="${max_effort}" velocity="${100*pi/180}" />
+      <limit lower="${-105*pi/180}" upper="${30*pi/180}" effort="${max_effort}" velocity="${100*pi/180}" />
     </joint>
     
     <joint name="joint3" type="revolute">
@@ -173,15 +173,15 @@
       <child link="link3" />
       <axis xyz="-1 0 0" />
       <origin xyz="${dist_2_3} 0 ${link2_length}" rpy="0 0 0" />
-      <limit lower="${-30*pi/180}" upper="${60*pi/180}" effort="${max_effort}" velocity="${100*pi/180}" />
+      <limit lower="${-68*pi/180}" upper="${65*pi/180}" effort="${max_effort}" velocity="${100*pi/180}" />
     </joint> 
     
     <joint name="joint4" type="revolute">
       <parent link="link3" />
       <child link="link4" />
-      <axis xyz="0 0 1" />
+      <axis xyz="0 0 -1" />
       <origin xyz="0 ${link3_length} 0" rpy="0 0 0" />
-      <limit lower="${-60*pi/180}" upper="${60*pi/180}" effort="${max_effort}" velocity="${100*pi/180}" />
+      <limit lower="${-65*pi/180}" upper="${65*pi/180}" effort="${max_effort}" velocity="${100*pi/180}" />
     </joint>
     
     <joint name="joint5" type="revolute">
@@ -189,7 +189,7 @@
       <child link="link5" />
       <axis xyz="-1 0 0" />
       <origin xyz="${-link4_length} 0 ${-dist_4_5}" rpy="0 0 0" />
-      <limit lower="${-30*pi/180}" upper="${45*pi/180}" effort="${max_effort}" velocity="${100*pi/180}" />
+      <limit lower="${-30*pi/180}" upper="${55*pi/180}" effort="${max_effort}" velocity="${100*pi/180}" />
     </joint> 
     
     <joint name="joint6" type="revolute">
@@ -197,7 +197,7 @@
       <child link="eef" />
       <axis xyz="0 1 0" />
       <origin xyz="0 ${link5_length} ${dist_5_eef}" rpy="0 0 0" />
-      <limit lower="${-50*pi/180}" upper="${50*pi/180}" effort="${max_effort}" velocity="${100*pi/180}" />
+      <limit lower="${-90*pi/180}" upper="${90*pi/180}" effort="${max_effort}" velocity="${100*pi/180}" />
     </joint> 
 
   </macro>

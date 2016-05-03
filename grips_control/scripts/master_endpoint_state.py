@@ -14,6 +14,10 @@ from baxter_core_msgs.msg import EndpointState
 from sensor_msgs.msg import JointState
 from geometry_msgs.msg import Twist, Vector3, PoseStamped, TwistStamped, WrenchStamped
 
+offset_x = 0.12
+offset_y = 0.3
+offset_z = 0.15
+
 def TwistKDLToMsg(kdl_twist):
   msg_twist = Twist()
   msg_twist.linear = Vector3(*kdl_twist.vel)
@@ -25,14 +29,16 @@ class StateNode(object):
     # Read parameters
     self.frame_id = read_parameter('~frame_id', 'world')
     self.tip_link = read_parameter('~tip_link', 'eef')
+    self.robot_description = read_parameter('~robot_description', 'master_description')
+    self.joint_states_topic = read_parameter('~joint_states_topic', '/master_kraft/joint_states')
     # Kinematics
-    self.urdf = URDF.from_parameter_server(key='master_description')
+    self.urdf = URDF.from_parameter_server(key=self.robot_description)
     self.kinematics = KDLKinematics(self.urdf, self.frame_id, self.tip_link)
     self.fk_vel_solver = PyKDL.ChainFkSolverVel_recursive(self.kinematics.chain)
     # Set-up publishers/subscribers
     self.pose_state_pub = rospy.Publisher('/master_kraft/pose', PoseStamped)
     self.vel_state_pub = rospy.Publisher('/master_kraft/velocity', TwistStamped)
-    rospy.Subscriber('/master_kraft/joint_states', JointState, self.joint_states_cb)
+    rospy.Subscriber(self.joint_states_topic, JointState, self.joint_states_cb)
   
   def joint_states_cb(self, msg):
     endpoint_state_msg = EndpointState()
@@ -49,6 +55,9 @@ class StateNode(object):
     state_msg.header.frame_id = self.frame_id
     state_msg.header.stamp = rospy.Time.now()
     state_msg.pose = PoseConv.to_pose_msg(T06)
+    state_msg.pose.position.x -= offset_x
+    state_msg.pose.position.y -= offset_y
+    state_msg.pose.position.z -= offset_z
     
     vel_state_msg = TwistStamped()
     vel_state_msg.header.frame_id = self.frame_id
